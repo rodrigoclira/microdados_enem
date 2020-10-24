@@ -25,13 +25,14 @@ class Candidato():
 
 @app.route("/", methods = ["GET", "POST"])
 def home():
+    candidatos = []
     if request.form:
         inscricao = request.form.get("insc")
-        result = db.engine.execute(f'SELECT NU_INSCRICAO , NU_NOTA_CN , NU_NOTA_CH , NU_NOTA_LC , NU_NOTA_MT , TP_LINGUA , TP_STATUS_REDACAO, NU_NOTA_REDACAO, ano from microdados WHERE NU_INSCRICAO = \'{inscricao}\'')
-        candidatos = []
-        for row in result:
-            candidatos.append(Candidato(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
-
+        #result = db.engine.execute(f'SELECT NU_INSCRICAO , NU_NOTA_CN , NU_NOTA_CH , NU_NOTA_LC , NU_NOTA_MT , TP_LINGUA , TP_STATUS_REDACAO, NU_NOTA_REDACAO, ano from microdados WHERE NU_INSCRICAO = \'{inscricao}\'')
+        #for row in result:
+        #    candidatos.append(Candidato(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+        candidatos.append(Candidato(190001004627, 200, 300, 400, 123, 1, 1, 100, 2018))
+        candidatos.append(Candidato(190001004627, 200, 300, 400, 123, 1, 1, 100, 2018))
 
     return render_template("home.html", candidatos =  candidatos)
   

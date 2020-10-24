@@ -1,21 +1,56 @@
-<html>
-  <body>
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    
+    <h1 class="animated fadeIn mb-1">Consulta Microdados ENEM 2017, 2018 e 2019</h5>
+
     <form method="POST" action="/">
-      <input type="text" name="insc">
-      <input type="submit" value="Submeter">
+     <div class="md-form">
+      <textarea class="md-textarea form-control" name="insc" rows="5", cols="100">
+      </textarea>
+      <input  class="btn btn-primary btn-md" type="submit" value="Pesquisar">
+     </div>
     </form>
 
-    <h1>Candidato</h1>
+    {% if candidatos %}
+    <h1 class="animated fadeIn mb-1">Candidato</h1>
+
+    <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Inscrição</th>
+      <th scope="col">Ano</th>
+      <th scope="col">Nota CN</th>
+      <th scope="col">Nota CH</th>
+      <th scope="col">Nota LC</th>
+      <th scope="col">Nota MT</th>
+      <th scope="col">Nota Redação</th>
+    </tr>
+   </thead>
+  
+   <tbody>
     {% for candidato in candidatos %}
-    <p> {{ candidato.ano }} </p>
-    <p> {{ candidato.inscricao }} </p>
-    <p> {{ candidato.nota_cn }} </p>
-    <p> {{ candidato.nota_ch }} </p>
-    <p> {{ candidato.nota_lc }} </p>
-    <p> {{ candidato.nota_mt }} </p>
-    <p> {{ candidato.tp_lingua }} </p>
-    <p> {{ candidato.tp_status_red}} </p>
-    <p> {{ candidato.nota_redacao }} </p>
+    <tr>
+	<th scope="row">{{  loop.index }}</th>
+
+    	<td> {{ candidato.inscricao }} </td>
+	<td> {{ candidato.ano }} </td>
+	<td> {{ candidato.nota_cn }} </td>
+	<td> {{ candidato.nota_ch }} </td>
+   	<td> {{ candidato.nota_lc }} </td>
+	<td> {{ candidato.nota_mt }} </td>
+	<td> {{ candidato.nota_redacao }} </td>
+    </tr>
+    
+    <!-- <p> {{ candidato.tp_lingua }} </p>
+    <p> {{ candidato.tp_status_red}} </p> -->
     {% endfor %}
-  </body>
-</html>
+    </tbody>
+    </table>
+    {% endif %}
+
+{% endblock %}

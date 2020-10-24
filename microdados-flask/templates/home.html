@@ -1,0 +1,21 @@
+<html>
+  <body>
+    <form method="POST" action="/">
+      <input type="text" name="insc">
+      <input type="submit" value="Submeter">
+    </form>
+
+    <h1>Candidato</h1>
+    {% for candidato in candidatos %}
+    <p> {{ candidato.ano }} </p>
+    <p> {{ candidato.inscricao }} </p>
+    <p> {{ candidato.nota_cn }} </p>
+    <p> {{ candidato.nota_ch }} </p>
+    <p> {{ candidato.nota_lc }} </p>
+    <p> {{ candidato.nota_mt }} </p>
+    <p> {{ candidato.tp_lingua }} </p>
+    <p> {{ candidato.tp_status_red}} </p>
+    <p> {{ candidato.nota_redacao }} </p>
+    {% endfor %}
+  </body>
+</html>

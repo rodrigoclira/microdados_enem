@@ -7,27 +7,42 @@
     
     <h1 class="animated fadeIn mb-1">Consulta Microdados ENEM 2017, 2018 e 2019</h5>
 
+    </br>
+    </br>
+    <h3 class="animated fadeIn mb-1"> Digite um valor de inscrição ou vários separados por vírgula.</h5>
+    <h5 class="animated fadeIn mb-1"> Por exemplo, digite: 190001004627 </h5>
+    <h5 class="animated fadeIn mb-1"> Por exemplo, digite: 190001004627,190001004628,190001004629 </h5>
     <form method="POST" action="/">
-     <div class="md-form">
-      <textarea class="md-textarea form-control" name="insc" rows="5", cols="100">
-      </textarea>
+
+     <div class="form-group md-form mb-4 blue-textarea active-blue-textarea">
+      <textarea id="txt-insc" class="md-textarea form-control" name="insc" rows="5" cols="90"></textarea>
       <input  class="btn btn-primary btn-md" type="submit" value="Pesquisar">
      </div>
+
     </form>
 
-    {% if candidatos %}
-    <h1 class="animated fadeIn mb-1">Candidato</h1>
+    {% if invalidos %}
 
+    <h1 class="animated fadIn mb-1">Inválidos</h1>
+	{{ invalidos|join(', ') }}
+
+    {% endif %}
+    
+    </br></br>
+    <h5 class="animated fadeIn mb-1">As inscrições encontradas serão exibidas aqui </h3>
+    {% if candidatos %}
+    <h1 class="animated fadeIn mb-1">Candidatos</h1>
+    
     <table class="table table-striped">
     <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Inscrição</th>
-      <th scope="col">Ano</th>
-      <th scope="col">Nota CN</th>
-      <th scope="col">Nota CH</th>
-      <th scope="col">Nota LC</th>
-      <th scope="col">Nota MT</th>
+      <th scope="col">Edição</th>
+      <th scope="col">Ciências da Natureza</th>
+      <th scope="col">Ciências Humandas</th>
+      <th scope="col">Linguagens e Códigos</th>
+      <th scope="col">Matemática</th>
       <th scope="col">Nota Redação</th>
     </tr>
    </thead>

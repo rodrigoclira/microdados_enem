@@ -3,6 +3,9 @@ from flask import render_template
 from flask import request
 import os 
 from flask_sqlalchemy import SQLAlchemy
+from flask import session
+from waitress import serve
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:rootdb@localhost/enem"
@@ -26,15 +29,30 @@ class Candidato():
 @app.route("/", methods = ["GET", "POST"])
 def home():
     candidatos = []
+    invalidos = []
     if request.form:
-        inscricao = request.form.get("insc")
-        #result = db.engine.execute(f'SELECT NU_INSCRICAO , NU_NOTA_CN , NU_NOTA_CH , NU_NOTA_LC , NU_NOTA_MT , TP_LINGUA , TP_STATUS_REDACAO, NU_NOTA_REDACAO, ano from microdados WHERE NU_INSCRICAO = \'{inscricao}\'')
-        #for row in result:
-        #    candidatos.append(Candidato(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
-        candidatos.append(Candidato(190001004627, 200, 300, 400, 123, 1, 1, 100, 2018))
-        candidatos.append(Candidato(190001004627, 200, 300, 400, 123, 1, 1, 100, 2018))
+        consulta = request.form.get("insc")
+        valores = [ value.strip() for value in consulta.split(",") ]
 
-    return render_template("home.html", candidatos =  candidatos)
+        inscricoes = []
+        for valor in valores:
+            if valor.isnumeric():
+                inscricoes.append(valor)
+            else:
+                invalidos.append(valor)
+
+        if inscricoes:
+            query = "SELECT NU_INSCRICAO , NU_NOTA_CN , NU_NOTA_CH , NU_NOTA_LC , NU_NOTA_MT , TP_LINGUA , TP_STATUS_REDACAO, NU_NOTA_REDACAO, ano from microdados WHERE NU_INSCRICAO IN ({})".format(",".join(["%s"]*len(inscricoes)))
+            print (inscricoes)
+            print (query)
+            result = db.engine.execute(query, inscricoes)
+            for row in result:
+                candidatos.append(Candidato(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+
+    session.clear()
+    return render_template("home.html", candidatos =  candidatos, invalidos = invalidos)
   
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.secret_key = b'_5#y2L"F4Q8zdasdq321243129'
+    serve(app, host='0.0.0.0', port=80)
+
